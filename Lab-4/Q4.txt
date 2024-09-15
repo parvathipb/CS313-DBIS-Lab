@@ -1,0 +1,139 @@
+Note: Considering the newly added actor has act_id, we are performing all insertions for actor with act_id = 131 in the movie_cast table
+Note: Consider Terminal 1 commands are executed prior to Terminal 2 commands for the respective command numbers
+
+Terminal 1 commands:
+1. Enter the number of movies: 1
+   Enter movie id of movie number 1: 901
+   Enter role of the actor in movie number 1: Dharma Raj
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+2. Enter the number of movies: 1
+   Enter movie id of movie number 1: 999
+   Enter role of the actor in movie number 1: Karna
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 999 mov_id is not present in movie table which is referenced by movie_cast table
+
+3. Enter the number of movies: 1
+   Enter movie id of movie number 1: 903
+   Enter role of the actor in movie number 1: Arjuna
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+4. Enter the number of movies: 1
+   Enter movie id of movie number 1: 904
+   Enter role of the actor in movie number 1: Bheem
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+5. Enter the number of movies: 3
+   Enter movie id of movie number 1: 905
+   Enter role of the actor in movie number 1: Thor
+   Enter movie id of movie number 2: 906
+   Enter role of the actor in movie number 2: Iron Man
+   Enter movie id of movie number 3: 907
+   Enter role of the actor in movie number 3: Hulk
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+6. Enter the number of movies: 3
+   Enter movie id of movie number 1: 910
+   Enter role of the actor in movie number 1: Sean Maguire
+   Enter movie id of movie number 2: 911
+   Enter role of the actor in movie number 2: Andy Dufresne
+   Enter movie id of movie number 3: 912
+   Enter role of the actor in movie number 3: Gamora
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+             Here role can have duplicates but (mov_id,act_id) pair should not have duplicates
+
+7. Enter the number of movies: 2
+   Enter movie id of movie number 1: 989
+   Enter role of the actor in movie number 1: Cat Noir
+   Enter movie id of movie number 2: 956
+   Enter role of the actor in movie number 2: Green Lantern
+Output: Movie number 2 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 989, 956 mov_id(s) are not present in movie table which is referenced by movie_cast table
+             And while both are invalid mov_id(s), the latest one is printed in the output(i.e. Movie number 2(956))
+
+8. Enter the number of movies: 2
+   Enter movie id of movie number 1: 970
+   Enter role of the actor in movie number 1: Agatha
+   Enter movie id of movie number 2: 917
+   Enter role of the actor in movie number 2: Thanos
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 970 mov_id is not present in movie table which is referenced by movie_cast table
+             Even when one out of all the mov_id(s) given is invalid, the update will be unsuccessful
+
+Terminal 2 commands:
+1. Enter the number of movies: 1
+   Enter movie id of movie number 1: 902
+   Enter role of the actor in movie number 1: Nakul
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+2. Enter the number of movies: 1
+   Enter movie id of movie number 1: 999
+   Enter role of the actor in movie number 1: Karna
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 999 mov_id is not present in movie table which is referenced by movie_cast table
+
+3. Enter the number of movies: 1
+   Enter movie id of movie number 1: 903
+   Enter role of the actor in movie number 1: Dharma Raj
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 903 mov_id is alredy present as a pair with 131 in movie_cast table after Terminal 1, 3rd command
+             As (mov_id,act_id) pair should not have duplicates
+
+4. Enter the number of movies: 1
+   Enter movie id of movie number 1: 904
+   Enter role of the actor in movie number 1: Bheem
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 904 mov_id is alredy present as a pair with 131 in movie_cast table after Terminal 1, 4th command
+             As (mov_id,act_id) pair should not have duplicates
+             Duplicates in Role doesn't matter
+
+5. Enter the number of movies: 3
+   Enter movie id of movie number 1: 905
+   Enter role of the actor in movie number 1: Bruce Lee
+   Enter movie id of movie number 2: 908
+   Enter role of the actor in movie number 2: Meg
+   Enter movie id of movie number 3: 909
+   Enter role of the actor in movie number 3: Black Widow
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 905 mov_id is already present as a pair with 131 in movie_cast table after Terminal 1, 5th command
+             As (mov_id,act_id) pair should not have duplicates
+
+6. Enter the number of movies: 3
+   Enter movie id of movie number 1: 913
+   Enter role of the actor in movie number 1: Lester Burnham
+   Enter movie id of movie number 2: 914
+   Enter role of the actor in movie number 2: Rose DeWitt Bukater
+   Enter movie id of movie number 3: 915
+   Enter role of the actor in movie number 3: Peter Parker
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+7. Enter the number of movies: 2
+   Enter movie id of movie number 1: 918
+   Enter role of the actor in movie number 1: Cat Noir
+   Enter movie id of movie number 2: 919
+   Enter role of the actor in movie number 2: Green Lantern
+Output: Database update successful
+Observation: Database updated successfully as there are no violations for primary key and foreign key constraints
+
+8. Enter the number of movies: 2
+   Enter movie id of movie number 1: 989
+   Enter role of the actor in movie number 1: Vision
+   Enter movie id of movie number 2: 916
+   Enter role of the actor in movie number 2: Loki
+Output: Movie number 1 is not present in the database. Database is not updated.
+Observation: Database is not updated successfully as there are violations for foreign key constraints
+             Because 989 mov_id is not present in movie table which is referenced by movie_cast table

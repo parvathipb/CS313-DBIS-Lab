@@ -1,0 +1,9 @@
+1. begin;
+2. insert into actor(act_id, act_fname, act_lname, act_ender) values (100, 'Cillian', 'Murphy', 'M');
+4. commit;
+6a. begin;
+6b. insert into actor(act_id, act_fname, act_lname, act_ender) values (125, 'Emma', 'Stone', 'F');
+6d. rollback;
+7. begin;
+   insert into actor(act_id, act_fname, act_lname, act_ender) values (126, 'Emma', 'Watson', 'F);
+   rollback;

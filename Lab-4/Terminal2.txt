@@ -1,0 +1,4 @@
+3. select * from actor;
+5. select * from actor;
+6c. select * from actor;
+6e. select * from actor;
