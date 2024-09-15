@@ -1,0 +1,71 @@
+Create and list database
+1. show dbs
+2. use companydb
+3. show dbs
+   (No, It doesn't show companydb.)
+
+Insert
+1. use companydb
+   show dbs
+2. db.customer.insertOne({'name':'Alice','age':24})
+3. show dbs
+   (Yes, It does.)
+4. show collections
+5. db.customer.insertMany([{'name':'Bob'}, {'name':'Charles', 'age':24, 'level': 1}, {'name':'Darshan', 'age':27}])
+
+Find
+1. db.customer.find()
+2. db.customer.find({'age':27})
+3. db.customer.find({'age': {$gte : 25}})
+4. db.customer.find({'age': {$lt : 27}})
+5. db.customer.find({'age': {$lte : 27}})
+6. db.customer.find({'age': {$lte: 27}},{'name':1})
+7. db.customer.find({'age': {$lte: 27}},{'name':1, 'age':1})
+--db.customer.find({'age': {$gt : 23, $lte: 26}, 'level': {$gte:0} })
+--db.customer.find({'age': {$gt : 23, $lte: 26}},{'name':0})
+--db.customer.find({'age': {$gt : 23, $lte: 26}},{'name':1}, {'age':0})
+--db.customer.find({'age': {$gt : 23, $lte: 26}},{'name':0}, {'age':1})
+
+Nested documents
+1. db.customer.insertOne({'name':'Harry', 'age': 25, 'address': {'street':'75, Bd. Saint Germain', 'city':'Paris', 'Country':'France'}})
+--db.customer.insertOne({'name':'Harry', 'age': 25, 'address': {'street':'PB Road', 'city':'Dharwad', 'state': 'Karnataka', 'pin': 580011}})
+2. db.customer.find({'address.city': 'Paris'})
+--db.customer.find({'address.city': 'Dharwad'})
+
+Update
+1. db.customer.update({'name':'Alice'},{$set: {'age':29}})
+2. It shows the following error.
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+MongoInvalidArgumentError: Update document requires atomic operators
+
+Delete
+1. db.customer.deleteOne({'name':'Bob'})
+2. db.customer.find()
+3. db.customer.drop()
+4. db.dropDatabase()
+
+Exercise (Redis)
+1. set course:1:title "Data Management"
+   get course:1:title
+   set course:1:NumberOfStudents 3
+   get course:1:NumberOfStudents
+   sadd course:1:textbooks "Fundamentals of Database Systems" "No SQL for Mere Mortals"
+   smembers course:1:textbooks
+2. zadd course:1:students 9.1 Alice 8.9 Bob 9.0 Charles
+3. zrange course:1:students 0 -1
+4. scard course:1:textbooks
+5. rename course:1:textbooks course:1:materials
+6. sadd course:1:materials slides
+7. sadd course:1:assignment4 Redis MongoDB
+8. setex course:1:handout10 100 " "
+9. keys *
+10. del course:1:NumberOfStudents
+
+Exercise (MongoDB)
+1. show dbs
+2. use sample_mflix
+   show collections
+3. use sample_airbnb
+   db.listingsAndReviews.find({'address.country': 'Australia'},{'id':1,'name':1})
+4. db.listingsAndReviews.find({'bedrooms':{$gte: 2}},{'id':1,'name':1})
+5. db.listingsAndReviews.find({'address.location.is_location_exact': true},{'id':1,'name':1,'address':1})
