@@ -1,0 +1,158 @@
+call db.schema.visualization
+match (n) return n(graph/text/code/table is of form json nodes and elements)
+
+Basic retrieval
+1. call db.schema.visualization
+2. call db.propertykeys
+structure: match ...
+           where ...
+           return ...
+3. match (n) 
+   return n
+#(graph/text/code/table is of form json nodes and elements)
+4. match (n:Person)
+   return n
+5. match (n:Movie{released: 2003})
+   return n
+6. match (n:Movie{released: 2003})
+   return n.title, n.released, n.tagline
+7. match (n:Movie{released: 2003})
+   return n.title as `movie title`, n.released as `Release Year`, n.tagline as `Tagline`
+8. match (n:Movie {title: "Speed Racer"})<-[:WROTE]-(a:Person) 
+   return a
+9. match (n:Movie)--(a:Person {name: "Tom Hanks"})
+   return n,a
+10. match (n:Movie)-[r]-(a:Person {name: "Tom Hanks"})
+    return n.title,a.name,type(r)
+11. match (n:Movie)<-[r:ACTED_IN]-(p:Person {name: "Tom Hanks"})
+    return n.title,p.name,r.roles
+12. MATCH (n:Movie {title: "The Matrix"})<-[r:ACTED_IN]-(p:Person)
+    RETURN n.title, p.name, r.roles
+
+WHERE Clause
+1. match (n:Movie)<-[r:ACTED_IN]-(p:Person)
+   where p.name = "Tom Cruise"
+   return n.title,p.name,r.roles
+2. match (p:Person)
+   where p.born >=1970 and p.born <=1979
+   return p.name,p.born
+3. match (n:Movie)<-[r:ACTED_IN]-(p:Person)
+   where n.title = "The Matrix" and p.born >=1960
+   return n.title,p.name,r.roles,p.born
+4. match (n:Movie)<-[r]-(p:Person)
+   where type(r) = "WROTE"
+   return n.title,p.name
+5. match (p:Person)
+   where p.born IS NULL
+   return p.name,p.born
+6. match (m:Movie)<-[r:REVIEWED]-(p:Person)
+   return m.title,p.name,r.rating
+7. match (n:Person)
+   where n.name starts with "James"
+   return n.name
+8. match (n:Person)-[r:REVIEWED]->(m:Movie)
+   where r.summary contains "fun"
+   return n.name,r.summary,m.title
+9. match (:Movie)<-[:PRODUCED]-(p:Person)
+   where not exists ( (p)-[:DIRECTED]-(:Movie))
+   return p
+10. match (d:Person)-[:DIRECTED]->(m:Movie)<-[a:ACTED_IN]-(p:Person)
+    where exists ((d)-[:ACTED_IN]-(m))
+    return m,p,d
+11. MATCH (M:Movie)
+    where M.released in [2000,2002,2004]
+    RETURN M.title,M.released
+
+Multiple Patterns
+1. match (p:Person {name: "Gene Hackman"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(d:Person),(a:Person)-[:ACTED_IN]-(m)
+   return p,d,a,m
+2. match (p:Person {name: "James Thompson"})-[:FOLLOWS]->(a:Person)
+   return p,a
+3. match (p:Person {name: "James Thompson"})-[:FOLLOWS*3]-(a:Person)
+   return p,a
+match (p:Person {name: "James Thompson"})-[:FOLLOWS*n..m]-(a:Person)
+return p,a
+4. match (p:Person {name: "James Thompson"})-[:FOLLOWS*1..2]-(a:Person)
+   return p,a
+5. match (p:Person {name: "James Thompson"})-[:FOLLOWS*]-(a:Person)
+   return p,a
+6. match (p:Person)
+   where p.name starts with "Tom"
+       OPTIONAL MATCH (p)-[:DIRECTED]-(m:Movie)
+       Return p.name,m.title
+7. match (p:Person)-[:ACTED_IN]->(m:Movie)
+   Return p.name,collect(m.title)
+8. match (n:Movie)
+   optional match (p:Person)-[:REVIEWED]->(n)
+   return n.title,collect(p.name),size(collect(p.name))
+or
+match (p:Person)-[:REVIEWED]-(n:Movie)
+return n.title,collect(p.name),size(collect(p.name))
+or 
+match (n:Movie)-[:REVIEWED]-(p:Person)
+return n.title,collect(p.name),count(p.name)
+
+size: on list
+count: on collection
+
+(match (p:Person)-[:REVIEWED]->(m:Movie)
+with m.title,
+return n.title,collect(p.name),count(p.name))
+9. match (p:Person)-[:ACTED_IN]->(m:Movie)
+   with p as actor, collect(m.title) as movies
+   where size(movies) = 5
+   return actor.name, actor.born, movies
+or 
+match (p:Person)-[:ACTED_IN]->(m:Movie)
+with p.name as actor, collect(m.title) as movies
+where size(movies) = 5
+return actor, movies
+
+Distinct, Min and Max
+1. match (p:Person)-[r:REVIEWED]-(m:Movie)
+   with m.title as mov,avg(r.rating) as average
+   return mov,average
+   order by average desc
+or 
+match (p:Person)-[r:REVIEWED]-(m:Movie)
+return m.title,avg(r.rating) as average
+order by average desc
+
+use : limit 5 or offset 5
+2. match (p:Person)-[r:ACTED_IN]-(m:Movie)
+   with p.name as actor, collect(m.title) as movies
+   where size(movies)>=3
+   return actor,movies
+or 
+   return distinct(actor),movies
+
+Lists and Date
+1. match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:ACTED_IN]-(b:Person)
+   return [p.name,b.name], collect(m.title)
+or
+match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:ACTED_IN]-(b:Person)
+return p.name,b.name, collect(m.title)
+
+write a where condition to eliminate duplicates
+2. match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:PRODUCED]-(a:Person)
+   return m.title,collect(p.name) as actors,collect(a.name) as producers
+or
+match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:PRODUCED]-(a:Person)
+return m.title,collect(distinct p.name) as actors,collect(distinct a.name) as producers
+or
+match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:PRODUCED]-(a:Person)
+return m.title,p.name,a.name
+3. match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:PRODUCED]-(a:Person)
+   with m.title as movie,collect(distinct p.name) as actors,collect(distinct a.name) as producers
+   unwind actors as act
+    	unwind producers as pd
+		return movie, act, pd
+or 
+match (p:Person)-[:ACTED_IN]-(m:Movie)<-[:PRODUCED]-(a:Person)
+with m.title as movie,collect(distinct p.name) as actors,collect(distinct a.name) as producers
+unwind actors as act
+	return movie, act
+4. match (m:Movie)-[:ACTED_IN]-(a:Person {name: "Tom Hanks"})
+   return m.title,m.released,a.born,m.released - a.born as `age of tom during release`,date().year - m.released
+
+return date()
