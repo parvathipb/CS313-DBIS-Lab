@@ -1,0 +1,149 @@
+Install from: https://redis.io/docs/getting-started/ (done in wsl)
+
+Server-Client setup
+1. redis-server
+2. redis-cli
+3. ping/PING
+4. echo Hello/ECHO "hello"/echo "Hello World"
+
+Insert and Delete
+1. SET client1 Alice
+2. get client1
+3. SET client1 Broody
+   get client1(overwritten, Ans: Broody)
+4. get clien(Ans:(nil))
+5. del client1(Ans: (integer) 1)
+6. del clie(Ans: (integer) 0)
+7. set client:1:name Alice
+   get client:1:name
+8. set client:1:level 1
+   get client:1:level
+->(set takes even integer values as string, so we get "1" as answer, but this behaves as integer only and incr works on it)
+
+Update values
+1. incr client:1:level
+2. decr client:1:level
+->incr client:1(key not present in database, it'll initialize the key and increment it to 1)
+->incr doesn't work on anything other than integer value
+
+Delete based on time
+1. exists client:1:name
+2. exists client:1:address
+3. set message "Hello World"
+4. expire message 60
+5. ttl message
+6. ttl client:1:name
+  (integer) -1(key exists but no expiration time)
+7. ttl message1
+  (integer) -2(since key not there in database)
+8. setex message2 50 "hello universe"
+9. persist message2
+10. persist client:1:name
+    (integer) 0
+11. persist client2
+    (integer) 0
+
+Inserting multiple keys together
+1. mset server:1:name Apache server:1:port 8000 server:1:number 5
+2. append server:1:name "lite"
+3. rename server:1:name server:1:identifier
+4. flushall
+->To overwrite any value use "set"
+
+List
+1. rpush Customers Alice Bob Charles
+->lpush Customers Bunny(lpush for already existing key)
+2. del Customers 
+   lpush Customers Alice, Bob, Charles
+3. lrange Customers 0 -1(1st to last)
+4. lrange Customers 0 2
+->lrange Customers 0 -2(1st to last but one)
+5. linsert Customers after "Bob" "harry"
+6. linsert Customers before "Bob" "harry"
+7. llen Customers
+8. rpop Customers
+9. lpop Customers
+10. flushall
+
+Set
+1. sadd courses CS maths physics
+2. sadd courses economics
+3. smembers courses
+4. sadd courses maths
+   (integer) 0(repetitions are not allowed in set)
+5. scard courses
+6. sismember courses maths
+   (integer) 1
+7. sismember courses chemistry
+   (integer) 0
+8. smove courses basic physics
+9. srem courses CS
+   (integer) 1
+10. srem courses chemistry
+    (integer) 0
+11. flushall
+
+Ordered set
+1. zadd clients 3500 Harry 3300 Alice 3500 Charles 3400 Robert
+2. zrange clients 0 -1
+   (Ascending order, when tie-in values first added will be first)
+   1) "Alice"
+   2) "Robert"
+   3) "Charles"
+   4) "Harry"
+3. zadd clients 3200 Charles
+   1) "Charles"
+   2) "Alice"
+   3) "Robert"
+   4) "Harry"
+4. zrank clients Robert
+   zrank clients Charles
+5. zrank clients Dumbledore
+   (nil)
+6. zincrby clients 500 Robert
+   "3900"
+7. zrange clients 0 -1
+   1) "Charles"
+   2) "Alice"
+   3) "Harry"
+   4) "Robert"
+8. flushall
+->We can't decrement like zincrby
+
+Hash set
+1. hset Customer:1 name Alice income 3200
+2. hget Customer:1 name
+3. hget Customer:1 address
+   (nil)
+4. hget Customer:2 name
+   (nil)
+5. hgetall Customer:1
+   1) "name"
+   2) "Alice"
+   3) "income"
+   4) "3200"
+6. hgetall Customer:2
+   (empty array)
+7. hkeys Customer:1
+   1) "name"
+   2) "income"
+8. hvals Customer:1
+   1) "Alice"
+   2) "3200"
+9. hkeys Customer:2
+   (empty array)
+10. hvals Customer:2
+   (empty array)
+11. hlen Customer:1
+    (integer) 2
+12. hincrby Customer:1 income 1
+    hincrby Customer:1 income -1
+13. hdel Customer:1 name income
+    (integer) 2
+or
+    hdel Customer:1 name
+    (integer) 1
+
+Save and Exit
+1. save
+2. quit

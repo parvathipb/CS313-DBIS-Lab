@@ -1,0 +1,70 @@
+Insert and Delete
+3. SET client1 Broody
+   get client1
+   (overwritten/updated, Ans: Broody)
+4. get clien
+   (Ans:(nil))
+6. del clie
+   (Ans: (integer) 0)
+7. set client:1:name Alice
+   get client:1:name
+8. set client:1:level 1
+   get client:1:level
+
+Delete based on time
+2. exists client:1:address
+3. set message "Hello World"
+6. ttl client:1:name
+  (integer) -1(key exists but no expiration time)
+7. ttl message1
+  (integer) -2(since key not there in database)
+10. persist client:1:name
+    (integer) 0
+11. persist client2
+    (integer) 0
+
+List
+2. del Customers 
+   lpush Customers Alice, Bob, Charles
+4. lrange Customers 0 2
+6. linsert Customers before "Bob" "harry"
+9. lpop Customers
+10. flushall
+
+Set
+2. sadd courses economics
+4. sadd courses maths
+   (integer) 0(repetitions are not allowed in set)
+7. sismember courses chemistry
+   (integer) 0(implies chemistry is not a member)
+10. srem courses chemistry
+    (integer) 0
+11. flushall
+
+Ordered set
+3. zadd clients 3200 Charles
+   zrange clients 0 -1
+   1) "Charles"
+   2) "Alice"
+   3) "Robert"
+   4) "Harry"
+5. zrank clients Dumbledore
+   (nil)
+7. zrange clients 0 -1
+   1) "Charles"
+   2) "Alice"
+   3) "Harry"
+   4) "Robert"
+8. flushall
+
+Hash set
+3. hget Customer:1 address
+   (nil)
+4. hget Customer:2 name
+   (nil)
+6. hgetall Customer:2
+   (empty array)
+9. hkeys Customer:2
+   (empty array)
+10. hvals Customer:2
+   (empty array)
