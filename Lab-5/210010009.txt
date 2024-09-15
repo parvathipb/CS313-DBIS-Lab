@@ -1,0 +1,68 @@
+Exercise Queries
+1. match (n:Movie)
+   return n
+2. match (n:Movie)
+   return n.title,n.released,n.tagline
+3. match (p:Person)
+   return p.name as Name,p.born as `Year of birth`
+4. match (n:Movie {title: "The Matrix"})--(p:Person)
+   return n,p
+5. match (n:Movie {title: "The Matrix"})-[r]-(p:Person)
+   return n,p,type(r)
+6. match (n:Movie)
+   where n.released = 2000
+   return n
+7. match (p:Person)-[r:ACTED_IN]->(n:Movie)
+   where p.name ends with "Thompson"
+   return p.name,n.title,r.roles
+(comment: when person need not be actor:
+   match (p:Person)
+   where p.name ends with "Thompson"
+   optional match (p)-[r:ACTED_IN]->(n:Movie)
+   return p.name,n.title,r.roles)
+8. match (p:Person)-[r:ACTED_IN]->(m:Movie)
+   where any(role in r.roles where toLower(role) contains toLower(m.title))
+   return p.name,r.roles,m.title
+9. match (p:Person {name: "Tom Hanks"})-[:ACTED_IN|DIRECTED]->(movie:Movie)<-[:ACTED_IN|DIRECTED]-(q:Person)
+   where p <> q
+   return distinct q.name AS `NamesOfCoActors/Directors`
+10. match (m:Movie)
+    optional match (p:Person)-[r:REVIEWED]->(m)
+    return m.title AS MovieTitle, collect({summary: r.summary, rating: r.rating, reviewer: p.name}) AS Reviews
+11. match (p:Person)-[:DIRECTED]->(m:Movie)
+    return p.name,collect(m.title)
+12. match (p:Person {name:"Tom Cruise"})-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(q:Person)
+    return m.title as MovieTitle,collect(q.name) as NamesOfCoActors
+13. match (d:Person)-[:DIRECTED]->(m:Movie)<-[:ACTED_IN]-(a:Person)
+    with d, collect(distinct a.name) AS actors
+    return d.name as DirectorName, size(actors) as NumberOfActors, actors as Actors
+14. match (m:Movie)<-[:DIRECTED]-(p:Person)
+    with m, collect(distinct p.name) as directors
+    where size(directors) >= 2
+    optional match (m)<-[r:REVIEWED]-(q:Person)
+    return m.title AS MovieTitle, collect(q.name) as Reviewers,directors
+15. match (m:Movie)<-[:ACTED_IN]-(p:Person)
+    where m.released >= 1990 and m.released < 2000
+    return m.released as ReleaseDate, m.title as MovieTitle, collect(p.name) as ActorNames
+16. match (m:Movie)<-[:ACTED_IN]-(p:Person)
+    where m.released >= 1990 and m.released < 2000
+    with m.released AS ReleaseYear, m, p.name as ActorNames 
+    return ReleaseYear, collect(distinct m.title) as  MoviesReleased,collect(ActorNames) as ActorsInTheMovies
+17. match (m:Movie)<-[:ACTED_IN]-(p:Person)
+    where m.released >= 1990 and m.released < 2000
+    with m.released AS ReleaseYear, m, p.name as ActorNames 
+    return ReleaseYear, collect(distinct m.title) as  MoviesReleased,collect(ActorNames) as ActorsInTheMovies
+    order by ReleaseYear desc
+18. match (p:Person)-[:ACTED_IN]->(m:Movie)
+    with p, collect(m.title) as movies
+    where size(movies) >= 5
+    return p.name as ActorName, movies as Movies
+
+
+
+
+
+
+
+
+
