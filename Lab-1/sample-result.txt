@@ -1,0 +1,361 @@
+salesdb=# \i sample.sql
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+ cust_name
+-----------
+ Holmes
+ Micheal
+ Ravindran
+ Cook
+ Fleming
+ Avinash
+ Srinivas
+(7 rows)
+
+ ord_num |  ord_date  | ord_description
+---------+------------+-----------------
+  200104 | 2008-03-13 | SOD
+  200110 | 2008-04-15 | SOD
+  200106 | 2008-04-20 | SOD
+  200103 | 2008-05-15 | SOD
+  200102 | 2008-05-25 | SOD
+  200113 | 2008-06-10 | SOD
+  200124 | 2008-06-20 | SOD
+  200126 | 2008-06-24 | SOD
+  200111 | 2008-07-10 | SOD
+  200116 | 2008-07-13 | SOD
+  200101 | 2008-07-15 | SOD
+  200105 | 2008-07-18 | SOD
+  200118 | 2008-07-20 | SOD
+  200129 | 2008-07-20 | SOD
+  200127 | 2008-07-20 | SOD
+  200130 | 2008-07-30 | SOD
+  200100 | 2008-08-01 | SOD
+  200114 | 2008-08-15 | SOD
+  200131 | 2008-08-26 | SOD
+  200107 | 2008-08-30 | SOD
+  200119 | 2008-09-16 | SOD
+  200135 | 2008-09-16 | SOD
+  200123 | 2008-09-16 | SOD
+  200134 | 2008-09-25 | SOD
+  200125 | 2008-10-10 | SOD
+(25 rows)
+
+ ord_num |  ord_date  | ord_amount
+---------+------------+------------
+  200107 | 2008-08-30 |    4500.00
+  200134 | 2008-09-25 |    4200.00
+  200113 | 2008-06-10 |    4000.00
+  200119 | 2008-09-16 |    4000.00
+  200114 | 2008-08-15 |    3500.00
+  200101 | 2008-07-15 |    3000.00
+  200110 | 2008-04-15 |    3000.00
+  200129 | 2008-07-20 |    2500.00
+  200130 | 2008-07-30 |    2500.00
+  200105 | 2008-07-18 |    2500.00
+  200106 | 2008-04-20 |    2500.00
+  200127 | 2008-07-20 |    2500.00
+  200135 | 2008-09-16 |    2000.00
+  200125 | 2008-10-10 |    2000.00
+  200102 | 2008-05-25 |    2000.00
+  200104 | 2008-03-13 |    1500.00
+  200103 | 2008-05-15 |    1500.00
+  200100 | 2008-08-01 |    1000.00
+  200111 | 2008-07-10 |    1000.00
+  200131 | 2008-08-26 |     900.00
+(20 rows)
+
+ cust_name
+-----------
+ Stuart
+ Sasikant
+ Shilton
+ Srinivas
+ Steven
+(5 rows)
+
+ ord_num
+---------
+  200104
+(1 row)
+
+ ord_num | new_order_amount
+---------+------------------
+  200100 |        1100.0000
+  200110 |        3300.0000
+  200107 |        4950.0000
+  200113 |        4400.0000
+  200102 |        2200.0000
+  200114 |        3850.0000
+  200118 |         550.0000
+  200119 |        4400.0000
+  200130 |        2750.0000
+  200134 |        4620.0000
+  200103 |        1650.0000
+  200105 |        2750.0000
+  200101 |        3300.0000
+  200111 |        1100.0000
+  200104 |        1650.0000
+  200106 |        2750.0000
+  200125 |        2200.0000
+  200123 |         550.0000
+  200116 |         550.0000
+  200124 |         550.0000
+  200126 |         550.0000
+  200129 |        2750.0000
+  200127 |        2750.0000
+  200135 |        2200.0000
+  200131 |         990.0000
+(25 rows)
+
+ ord_num | balance_amount
+---------+----------------
+  200110 |        2500.00
+  200113 |        3400.00
+  200102 |        1700.00
+  200114 |        1500.00
+  200119 |        3300.00
+  200130 |        2100.00
+  200105 |        2000.00
+  200101 |        2000.00
+  200106 |        1800.00
+  200125 |        1400.00
+  200129 |        2000.00
+  200127 |        2100.00
+  200135 |        1200.00
+(13 rows)
+
+ ord_num | cust_code | ord_amount
+---------+-----------+------------
+  200113 | C00022    |    4000.00
+  200118 | C00023    |     500.00
+  200119 | C00007    |    4000.00
+  200123 | C00022    |     500.00
+  200116 | C00010    |     500.00
+  200124 | C00017    |     500.00
+  200126 | C00022    |     500.00
+(7 rows)
+
+                agent_name                | agent_code
+------------------------------------------+------------
+ Santakumar                               | A010
+ McDen                                    | A006
+ Ivan                                     | A004
+(3 rows)
+
+                agent_name                | agent_code
+------------------------------------------+------------
+ Ramasundar                               | A007
+ Alex                                     | A003
+ Santakumar                               | A010
+ Anderson                                 | A005
+ McDen                                    | A006
+ Ivan                                     | A004
+(6 rows)
+
+ agent_code
+------------
+ A007
+ A003
+ A008
+ A011
+ A010
+ A012
+ A005
+ A002
+ A006
+ A004
+ A009
+(11 rows)
+
+ cust_name
+-----------
+ Alice
+(1 row)
+
+ agent_code
+------------
+ A003
+ A010
+ A010
+ A002
+ A012
+ A008
+ A010
+ A011
+ A005
+ A005
+ A011
+ A008
+ A008
+ A004
+ A002
+ A005
+ A006
+ A003
+ A010
+ A012
+(20 rows)
+
+                agent_name
+------------------------------------------
+ Alford
+ Lucida
+ Anderson
+ McDen
+ Mukesh
+ Santakumar
+ Alex
+ Ravi Kumar
+ Ivan
+(9 rows)
+
+ cust_name | cust_code
+-----------+-----------
+ Micheal   | C00001
+ Albert    | C00020
+ Ravindran | C00025
+ Bolt      | C00002
+ Srinivas  | C00017
+(5 rows)
+
+                agent_name
+------------------------------------------
+ Alex
+ Alford
+(2 rows)
+
+ total_order_amount | average_order_amount  | min_order_amount | max_order_amount
+--------------------+-----------------------+------------------+------------------
+           53100.00 | 2124.0000000000000000 |           500.00 |          4500.00
+(1 row)
+
+ count
+-------
+     3
+(1 row)
+
+ count
+-------
+    11
+(1 row)
+
+ agent_code |                agent_name
+------------+------------------------------------------
+ A012       | Lucida
+ A002       | Mukesh
+ A005       | Anderson
+ A011       | Ravi Kumar
+ A010       | Santakumar
+ A008       | Alford
+ A003       | Alex
+ A006       | McDen
+(8 rows)
+
+            working_area             | agent_count
+-------------------------------------+-------------
+ Bangalore                           |           3
+ Brisban                             |           1
+ Chennai                             |           1
+ Hampshair                           |           1
+ London                              |           2
+ Mumbai                              |           1
+ New York                            |           1
+ San Jose                            |           1
+ Torento                             |           1
+(9 rows)
+
+                agent_name                |            working_area
+------------------------------------------+-------------------------------------
+ Ravi Kumar                               | Bangalore
+ Alex                                     | London
+ McDen                                    | London
+ Alford                                   | New York
+ Lucida                                   | San Jose
+ Santakumar                               | Chennai
+ Mukesh                                   | Mumbai
+ Anderson                                 | Brisban
+(8 rows)
+
+ agent_code | average_order_amount
+------------+-----------------------
+ A012       | 1450.0000000000000000
+ A002       | 1875.0000000000000000
+ A005       | 2566.6666666666666667
+ A011       | 2500.0000000000000000
+ A009       |  500.0000000000000000
+ A010       | 3375.0000000000000000
+ A008       | 2500.0000000000000000
+ A003       | 1750.0000000000000000
+ A004       | 1500.0000000000000000
+ A006       | 1500.0000000000000000
+ A007       |  500.0000000000000000
+(11 rows)
+
+ALTER TABLE
+UPDATE 1
+ALTER TABLE
+DELETE 25
+DELETE 2
+DELETE 3
+psql:sample.sql:68: NOTICE:  drop cascades to constraint orders_cust_code_fkey on table orders
+DROP TABLE
+salesdb=#
