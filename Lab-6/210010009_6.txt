@@ -1,0 +1,36 @@
+Exercise
+1. MATCH (m:Movie)-[r:REVIEWED]-(p:Person)
+   match (q:Person)-[:DIRECTED]-(m)
+   RETURN m.title AS MovieTitle, q.name AS Director, r.rating AS Rating
+2. match (p:Person)
+   optional match (m:Movie)-[:DIRECTED]-(p)
+   return p.name,collect(m.title)
+3. MATCH (p:Person {name: "Tom Hanks"})-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(q:Person)
+   WHERE q <> p
+   RETURN q.name AS co_worker, m.title AS common_movie;
+4. MATCH (p:Person {name: "Tom Hanks"})-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(q:Person)
+   WHERE q <> p
+   RETURN q.name AS co_worker, collect(m.title) AS common_movies;
+5. MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(q:Person)
+   WHERE p <> q
+   WITH p, q, COLLECT(m.title) AS common_movies
+   RETURN [p.name, q.name] AS co_worker_pair, common_movies
+6. MATCH (p:Person)-[:ACTED_IN]->(m:Movie)<-[:ACTED_IN]-(q:Person)
+   WHERE p < q
+   WITH p, q, COLLECT(m.title) AS common_movies
+   RETURN [p.name, q.name] AS co_worker_pair, common_movies
+7. MATCH (p:Person)
+   WHERE p.born is not null
+   SET p.Current_Age = date().year - p.born;
+8. MATCH (p:Person)
+   OPTIONAL MATCH (p)-[:ACTED_IN]->(m:Movie)
+   WITH p, COUNT(m) AS numMovies
+   SET p.Num_movies_acted = numMovies;
+9. MATCH (p:Person)
+   OPTIONAL MATCH (p)-[:REVIEWED]->(m:Movie)
+   RETURN p.name AS person_name, COLLECT(m.title) AS reviewed_movies;
+10. MATCH (m:Movie)
+    OPTIONAL MATCH (m)<-[:ACTED_IN]-(p:Person)
+    OPTIONAL MATCH (m)<-[:DIRECTED]-(q:Person)
+    WITH m, COLLECT(DISTINCT p) AS actors, COLLECT(DISTINCT q) AS directors
+    RETURN m.title AS movie_title, SIZE(actors) AS num_actors, SIZE(directors) AS num_directors;

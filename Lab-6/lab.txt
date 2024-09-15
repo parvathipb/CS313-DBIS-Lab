@@ -1,0 +1,87 @@
+Modify Nodes and relationships
+1. MATCH (m:Movie)
+   WHERE m.released < 2010
+   SET m:OlderMovie
+   RETURN DISTINCT labels(m)
+2. CREATE (:Movie {title: 'Forrest Gump'})
+3. MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+SET m:OlderMovie,
+    m.released = 1994,
+    m.tagline = "Life is like a box of chocolates...you never know what you're gonna get.",
+    m.lengthInMinutes = 142
+4. MATCH (m:Movie)
+   WHERE m.title = 'Forrest Gump'
+   SET m.lengthInMinutes = null
+->CREATE (:Person {name: 'Robin Wright'})
+->MATCH (p:Person)
+  WHERE p.name = 'Robin Wright'
+  RETURN p
+->MATCH (p:Person)
+  WHERE p.name STARTS WITH 'Robin'
+  SET p:Female
+->MATCH (p:Female)
+  REMOVE p:Female
+->CALL db.schema.visualization()
+->MATCH (p:Person)
+  WHERE p.name = 'Robin Wright'
+  SET p.born = 1966, p.birthPlace = 'Dallas',p:Male
+->MATCH (p:Person)
+  WHERE p.name = 'Robin Wright'
+  RETURN p
+5. MATCH (m:Movie)
+   WHERE m.title = 'Forrest Gump'
+   MATCH (p:Person)
+   WHERE p.name = 'Tom Hanks' OR p.name = 'Robin Wright' OR p.name = 'Gary Sinise'
+   CREATE (p)-[:ACTED_IN]->(m)
+6. MATCH (p1:Person)
+   WHERE p1.name = 'Tom Hanks'
+   MATCH (p2:Person)
+   WHERE p2.name = 'Gary Sinise'
+   CREATE (p1)-[:HELPED]->(p2)
+7. MATCH (p1:Person)-[rel:HELPED]->(p2:Person)
+   WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+   SET rel.research = 'war history'
+8. MATCH (p1:Person)-[rel:HELPED]->(p2:Person)
+   WHERE p1.name = 'Tom Hanks' AND p2.name = 'Gary Sinise'
+   REMOVE rel.research
+->CALL db.propertyKeys()
+9. match (:Person)-[r:HELPED]-(:Person)
+   delete r
+10. MATCH (m:Movie)
+    WHERE m.title = 'Forrest Gump'
+    DELETE m - error
+MATCH (m:Movie)
+WHERE m.title = 'Forrest Gump'
+DETACH DELETE m
+11. MATCH (m:OlderMovie)
+    detach delete m
+
+Constrainsts and Keys
+1. CREATE CONSTRAINT for (p:Person) require p.name IS UNIQUE
+2. CREATE (:Person {name: 'Tom Hanks'})
+3. CREATE CONSTRAINT PersonNameUniqueConstraint for (p:Person) require p.name IS UNIQUE
+->CREATE (:Person {name: 'Tom Hanks'})
+4. MATCH (p:Person)
+   WHERE p.born is null
+   SET p.born = 0
+CREATE CONSTRAINT PersonBornExistsConstraint for (p:Person) require p.born is not null
+5. CREATE (:Person {name: 'Sean Penn'})
+6. CREATE CONSTRAINT ActedInRolesExistConstraint for ()-[r:ACTED_IN]-() require r.roles is not null
+7. MATCH (p:Person)-[r:ACTED_IN]-(m:Movie)
+   WHERE p.name = 'Emil Eifrem' AND
+      m.title = 'Forrest Gump'
+   merge (p)-[:ACTED_IN]-(m) (not correct)
+8. 
+9. 
+10. CREATE CONSTRAINT MovieTitleReleasedConstraint for (m:Movie) require (m.title, m.released) IS NODE KEY
+11. CALL db.constraints() (not working)
+12. DROP CONSTRAINT ActedInRolesExistConstraint
+
+Shortest path
+1. 
+
+Importing Data
+1. 
+2. 
+3. 
